@@ -9,7 +9,9 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
+    "@tensorflow/tfjs-node-gpu": "^1.0.2",
     "body-parser": "^1.18.3",
+    "canvas": "^2.4.1",
     "concurrently": "^4.1.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
@@ -19,6 +21,7 @@
     "graphql-tools": "^4.0.4",
     "merge-graphql-schemas": "^1.5.8",
     "mongoose": "^5.4.19",
+    "node-fetch": "^2.3.0",
     "nodemon": "^1.18.10"
   },
   "scripts": {

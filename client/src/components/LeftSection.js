@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Dropzone from "react-dropzone";
-import * as faceapi from "face-api.js";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 

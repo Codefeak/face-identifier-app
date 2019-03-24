@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-
-import { createFaceDimention } from "../createFaceDimention";
+import Dropzone from "react-dropzone";
+import ImageFrame from "./ImageFrame";
 
 const Wrapper = styled.div`
   grid-area: right;
@@ -12,16 +12,29 @@ const Wrapper = styled.div`
 `;
 
 const Form = styled.form`
-display: flex;
-flex-direction:column;
-`
+  display: flex;
+  flex-direction: column;
+`;
+
+const InputSection = styled.div`
+  width: 200px;
+  height: 200px;
+  display: block !important;
+  margin: 40px auto;
+  border: 2px dashed #e8e2e26e;
+  color: white;
+  box-shadow: inset 0px 0px 20px 14px #ff020247;
+`;
+const Input = styled.input`
+  width: 200px;
+  height: 200px;
+`;
 
 export const ADDHUMAN = gql`
   mutation RightSection(
     $socialID: String!
     $name: String!
     $hairColor: String!
-    $description: String!
     $gender: String!
     $url: String!
   ) {
@@ -29,14 +42,12 @@ export const ADDHUMAN = gql`
       socialID: $socialID
       name: $name
       hairColor: $hairColor
-      description: $description
       gender: $gender
       url: $url
     ) {
       socialID
       name
       hairColor
-      description
       gender
       url
     }
@@ -44,17 +55,51 @@ export const ADDHUMAN = gql`
 `;
 
 const RightSection = () => {
-  const stateData = [];
+  const stateData = { isLoading: false };
   const [state, setState] = useState(stateData);
 
   const handleOnChange = e => {
     e.preventDefault();
     setState({ ...state, [e.target.name]: e.target.value });
   };
-  const { socialID, name, hairColor, description, gender, url } = state;
 
+  const handleOnDrop = files => {
+    const file = files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const fileAsDataURL = reader.result;
+      setState({ ...state, url: fileAsDataURL, isLoading: true });
+    };
+    reader.readAsDataURL(file);
+  };
+  const {
+    socialID,
+    name,
+    hairColor,
+    gender,
+    url,
+    isLoading
+  } = state;
+  console.log(state);
   return (
     <Wrapper>
+      {isLoading ? (
+        url && <ImageFrame file={url} />
+      ) : (
+        <Dropzone onDrop={acceptedfiles => handleOnDrop(acceptedfiles)}>
+          {({ getRootProps, getInputProps }) => {
+            return (
+              <section>
+                <InputSection {...getRootProps()}>
+                  <Input {...getInputProps()} />
+                  <p>Drag pic file to indentify...</p>
+                </InputSection>
+              </section>
+            );
+          }}
+        </Dropzone>
+      )}
+
       <Mutation mutation={ADDHUMAN}>
         {(addHuman, { data }) => (
           <Form
@@ -65,7 +110,6 @@ const RightSection = () => {
                   socialID: socialID,
                   name: name,
                   hairColor: hairColor,
-                  description: description,
                   gender: gender,
                   url: url
                 }
@@ -94,18 +138,6 @@ const RightSection = () => {
               name="gender"
               type="text"
               placeholder="Gender"
-              onChange={handleOnChange}
-            />
-            <input
-              name="description"
-              type="text"
-              placeholder="Description"
-              onChange={handleOnChange}
-            />
-            <input
-              name="url"
-              type="text"
-              placeholder="URL"
               onChange={handleOnChange}
             />
             <button type="Submit">Add New</button>

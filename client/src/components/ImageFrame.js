@@ -14,20 +14,20 @@ const Image = styled.img`
   max-width: 200px;
   max-height: 200px;
 `;
-const UnorderList = styled.ul`
-  list-style-type: none;
-  overflow: auto;
-  padding: 0;
-`;
-const List = styled.li`
-  //   transform: translateX(-100%);
-  //   transition: transform 0.5s, opacity 2s;
-  opacity: 1;
-`;
+// const UnorderList = styled.ul`
+//   list-style-type: none;
+//   overflow: auto;
+//   padding: 0;
+// `;
+// const List = styled.li`
+//   //   transform: translateX(-100%);
+//   //   transition: transform 0.5s, opacity 2s;
+//   opacity: 1;
+// `;
 const ImageFrame = ({ file }) => (
   <ImageBox>
     {file && <Image src={file} alt="uploaded" />}
-    <UnorderList>
+    {/* <UnorderList>
       <List>Prepare for Scanning...OK</List>
       <List>Overriding Security Protocols...OK</List>
       <List>Looking for relative informations...OK</List>
@@ -38,7 +38,7 @@ const ImageFrame = ({ file }) => (
       <List>Retina Scaning...OK</List>
       <List>Preparing Matching...OK </List>
       <List>Identification Verified!!! </List>
-    </UnorderList>
+    </UnorderList> */}
   </ImageBox>
 );
 

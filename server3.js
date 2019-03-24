@@ -3,6 +3,8 @@ import expressGraphQL from "express-graphql";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
+import fetch from "node-fetch";
+import * as faceapi from "face-api.js";
 
 import schema from "./graphql";
 
@@ -15,6 +17,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
+faceapi.env.monkeyPatch({ fetch: fetch });
 app.use(
   "/graphql",
   cors(),
@@ -24,6 +27,5 @@ app.use(
     graphiql: true
   })
 );
-
 
 app.listen(PORT, () => console.log("Server running in port 4000"));

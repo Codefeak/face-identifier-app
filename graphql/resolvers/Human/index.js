@@ -1,4 +1,5 @@
 import Human from "../../../models/Human";
+import { createFaceDimention } from "../../../createFaceDimention";
 
 export default {
   Query: {
@@ -20,9 +21,10 @@ export default {
       });
     }
   },
-  
+
   Mutation: {
-    addHuman: (root, { socialID, name, hairColor, gender, description, url }) => {
+    addHuman: async (root, { socialID, name, hairColor, gender, url }) => {
+      const description = await createFaceDimention(url);
       const newHuman = new Human({
         socialID,
         name,
@@ -37,7 +39,10 @@ export default {
         });
       });
     },
-    editHuman: (root, { socialID, name, hairColor, gender, description, url }) => {
+    editHuman: (
+      root,
+      { socialID, name, hairColor, gender, description, url }
+    ) => {
       return new Promise((resolve, reject) => {
         Human.findOneAndUpdate(
           { socialID },

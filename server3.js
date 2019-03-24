@@ -5,6 +5,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import fetch from "node-fetch";
 import * as faceapi from "face-api.js";
+import path from "path";
 
 import schema from "./graphql";
 
@@ -17,6 +18,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
+app.use(express.static(path.join(__dirname, "static")));
 faceapi.env.monkeyPatch({ fetch: fetch });
 app.use(
   "/graphql",

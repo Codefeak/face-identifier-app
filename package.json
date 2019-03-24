@@ -9,7 +9,6 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
-    "@tensorflow/tfjs-node-gpu": "^1.0.2",
     "body-parser": "^1.18.3",
     "canvas": "^2.4.1",
     "concurrently": "^4.1.0",

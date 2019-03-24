@@ -4,7 +4,7 @@ type Query {
     humen: [Human]
 },
 type Mutation {
-    addHuman(socialID:String!, name: String!, hairColor: String!, gender: String!, description:String!, url: String!):Human
+    addHuman(socialID:String!, name: String!, hairColor: String!, gender: String!, description:String, url: String!):Human
     editHuman(socialID:String!, name: String, hairColor: String, gender: String, description: String, url: String ): Human
     deleteHuman(socialID:String!, name: String, hairColor: String, gender: String, description: String, url: String ): Human
 },

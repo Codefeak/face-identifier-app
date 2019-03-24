@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const humanSchema = new Schema({
-  _id: {
+  socialID: {
     type: String,
     required: true,
     unique: true

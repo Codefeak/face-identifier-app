@@ -22,9 +22,9 @@ export default {
   },
   
   Mutation: {
-    addHuman: (root, { _id, name, hairColor, gender, description, url }) => {
+    addHuman: (root, { socialID, name, hairColor, gender, description, url }) => {
       const newHuman = new Human({
-        _id,
+        socialID,
         name,
         hairColor,
         gender,
@@ -37,10 +37,10 @@ export default {
         });
       });
     },
-    editHuman: (root, { _id, name, hairColor, gender, description, url }) => {
+    editHuman: (root, { socialID, name, hairColor, gender, description, url }) => {
       return new Promise((resolve, reject) => {
         Human.findOneAndUpdate(
-          { _id },
+          { socialID },
           { $set: { name, hairColor, gender, description, url } }
         ).exec((err, res) => {
           err ? reject(err) : resolve(res);

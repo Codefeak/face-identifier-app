@@ -26,7 +26,7 @@ const InputSection = styled.input`
 export const HUMANLIST = gql`
   query {
     humen {
-      _id
+      socialID
       name
       hairColor
       gender

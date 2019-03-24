@@ -6,14 +6,14 @@ const { buildSchema } = require("graphql");
 
 const schema = buildSchema(`
     type Query {
-        course(_id: Int!): Course
+        course(socialID: Int!): Course
         courses(topic: String): [Course]
     },
     type Mutation {
-        updateCourseTopic(_id: Int!, topic: String!): Course
+        updateCourseTopic(socialID: Int!, topic: String!): Course
     },
     type Course {
-        _id: Int
+        socialID: Int
         title: String
         author: String
         description: String
@@ -24,7 +24,7 @@ const schema = buildSchema(`
 
 const coursesData = [
   {
-    _id: 1,
+    socialID: 1,
     title: "The Complete Node.js Developer Course",
     author: "Andrew Mead, Rob Percival",
     description:
@@ -33,7 +33,7 @@ const coursesData = [
     url: "https://codingthesmartway.com/courses/nodejs/"
   },
   {
-    _id: 2,
+    socialID: 2,
     title: "Node.js, Express & MongoDB Dev to Deployment",
     author: "Brad Traversy",
     description:
@@ -42,7 +42,7 @@ const coursesData = [
     url: "https://codingthesmartway.com/courses/nodejs-express-mongodb/"
   },
   {
-    _id: 3,
+    socialID: 3,
     title: "JavaScript: Understanding The Weird Parts",
     author: "Anthony Alicea",
     description:
@@ -53,9 +53,9 @@ const coursesData = [
 ];
 
 const getCourse = function(args) {
-  const _id = args._id;
+  const socialID = args.socialID;
   return coursesData.filter(course => {
-    return (course._id = _id);
+    return (course.socialID = socialID);
   })[0];
 };
 
@@ -67,14 +67,14 @@ const getCourses = function(args) {
     return coursesData;
   }
 };
-const updateCourseTopic = function({ _id, topic }) {
+const updateCourseTopic = function({ socialID, topic }) {
   coursesData.map(course => {
-    if (course._id === _id) {
+    if (course.socialID === socialID) {
       course.topic = topic;
       return course;
     }
   });
-  return coursesData.filter(course => course._id === _id)[0];
+  return coursesData.filter(course => course.socialID === socialID)[0];
 };
 
 const root = {

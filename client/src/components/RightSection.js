@@ -18,7 +18,7 @@ flex-direction:column;
 
 export const ADDHUMAN = gql`
   mutation RightSection(
-    $_id: String!
+    $socialID: String!
     $name: String!
     $hairColor: String!
     $description: String!
@@ -26,14 +26,14 @@ export const ADDHUMAN = gql`
     $url: String!
   ) {
     addHuman(
-      _id: $_id
+      socialID: $socialID
       name: $name
       hairColor: $hairColor
       description: $description
       gender: $gender
       url: $url
     ) {
-      _id
+      socialID
       name
       hairColor
       description
@@ -51,7 +51,7 @@ const RightSection = () => {
     e.preventDefault();
     setState({ ...state, [e.target.name]: e.target.value });
   };
-  const { _id, name, hairColor, description, gender, url } = state;
+  const { socialID, name, hairColor, description, gender, url } = state;
 
   return (
     <Wrapper>
@@ -62,7 +62,7 @@ const RightSection = () => {
               e.preventDefault();
               addHuman({
                 variables: {
-                  _id: _id,
+                  socialID: socialID,
                   name: name,
                   hairColor: hairColor,
                   description: description,
@@ -79,7 +79,7 @@ const RightSection = () => {
               onChange={handleOnChange}
             />
             <input
-              name="_id"
+              name="socialID"
               type="text"
               placeholder="Social Security Number"
               onChange={handleOnChange}

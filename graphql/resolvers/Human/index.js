@@ -1,5 +1,4 @@
 import Human from "../../../models/Human";
-import { createFaceDimention } from "../../../createFaceDimention";
 
 export default {
   Query: {
@@ -23,8 +22,10 @@ export default {
   },
 
   Mutation: {
-    addHuman: async (root, { socialID, name, hairColor, gender, url }) => {
-      const description = await createFaceDimention(url);
+    addHuman: async (
+      root,
+      { socialID, name, hairColor, gender, description, url }
+    ) => {
       const newHuman = new Human({
         socialID,
         name,

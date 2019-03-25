@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import fetch from "node-fetch";
 import * as faceapi from "face-api.js";
 import path from "path";
-
 import schema from "./graphql";
 
 const app = express();
@@ -19,15 +18,24 @@ mongoose
   .catch(err => console.log(err));
 
 faceapi.env.monkeyPatch({ fetch: fetch });
+global.fetch = fetch;
+
+app.use(express.static(path.join(__dirname, "client/build/")));
+app.use("/static", express.static("client/build/static/"));
+app.use(bodyParser.json());
 app.use(
   "/graphql",
   cors(),
-  express.static(path.join(__dirname, "/client/public")),
   bodyParser.json(),
   expressGraphQL({
     schema: schema,
     graphiql: true
   })
 );
+
+app.get("/", (req, res) => {
+  app.use(express.static(path.join(__dirname, "/client/build/index.html")));
+});
+
 
 app.listen(PORT, () => console.log("Server running in port 4000"));

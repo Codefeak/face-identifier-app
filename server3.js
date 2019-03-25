@@ -18,11 +18,11 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
-app.use(express.static(path.join(__dirname, "static")));
 faceapi.env.monkeyPatch({ fetch: fetch });
 app.use(
   "/graphql",
   cors(),
+  express.static(path.join(__dirname, "/client/public")),
   bodyParser.json(),
   expressGraphQL({
     schema: schema,

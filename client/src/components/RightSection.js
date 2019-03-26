@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
-import Dropzone from "react-dropzone";
-import axios from "axios";
-import * as faceapi from "face-api.js";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
+import * as faceapi from 'face-api.js';
 
-import ImageFrame from "./ImageFrame";
+import ImageFrame from './ImageFrame';
 
 const Wrapper = styled.div`
   grid-area: right;
@@ -40,7 +40,7 @@ export const ADDHUMAN = gql`
     $hairColor: String!
     $gender: String!
     $url: String!
-    $description: [Float]!
+    $description: String!
   ) {
     addHuman(
       socialID: $socialID
@@ -71,35 +71,35 @@ const RightSection = () => {
 
   const handleOnDrop = async images => {
     await faceapi.nets.ssdMobilenetv1.loadFromUri(
-      "http://localhost:4000/static/face_model"
+      'http://localhost:4000/static/face_model'
     );
     await faceapi.nets.faceLandmark68Net.loadFromUri(
-      "http://localhost:4000/static/face_model"
+      'http://localhost:4000/static/face_model'
     );
     await faceapi.nets.faceRecognitionNet.loadFromUri(
-      "http://localhost:4000/static/face_model"
+      'http://localhost:4000/static/face_model'
     );
 
     const { socialID, name } = state;
     const uploads = await images.map(image => {
       const formData = new FormData();
-      formData.append("file", image);
-      formData.append("tags", name);
-      formData.append("public_id", socialID);
-      formData.append("upload_preset", "uow0ce7i"); // Replace the preset name with your own
-      formData.append("api_key", "{293187688448118}"); // Replace API key with your own Cloudinary API key
-      formData.append("timestamp", (Date.now() / 1000) | 0);
+      formData.append('file', image);
+      formData.append('tags', name);
+      formData.append('public_id', socialID);
+      formData.append('upload_preset', 'uow0ce7i'); // Replace the preset name with your own
+      formData.append('api_key', '{293187688448118}'); // Replace API key with your own Cloudinary API key
+      formData.append('timestamp', (Date.now() / 1000) | 0);
 
       return axios
         .post(
-          "https://api.cloudinary.com/v1_1/problemchild/image/upload",
+          'https://api.cloudinary.com/v1_1/problemchild/image/upload',
           formData,
-          { headers: { "X-Requested-With": "XMLHttpRequest" } }
+          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
         )
         .then(response => console.log(response));
     });
     await axios.all(uploads).then(() => {
-      console.log("Image Uploaded to Cloudinary");
+      console.log('Image Uploaded to Cloudinary');
     });
     const reader = new FileReader();
     reader.onload = async () => {
@@ -130,19 +130,20 @@ const RightSection = () => {
       <Mutation mutation={ADDHUMAN}>
         {(addHuman, { data }) => (
           <Form
+            id="form"
             onSubmit={e => {
               e.preventDefault();
-              console.log(typeof (description));
               addHuman({
                 variables: {
                   socialID: socialID,
                   name: name,
                   hairColor: hairColor,
                   gender: gender,
-                  description: description,
+                  description: Array.from(description).join(),
                   url: url
                 }
               });
+              window.location.reload();
             }}
           >
             <input

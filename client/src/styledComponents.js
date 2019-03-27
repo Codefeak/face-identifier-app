@@ -14,7 +14,8 @@ export const Form = styled.form`
 export const InputSection = styled.div`
   width: 200px;
   height: 200px;
-  display: block !important;
+  display: flex !important;
+  align-items: center;
   margin: 40px auto;
   border: 2px dashed #e8e2e26e;
   color: white;
@@ -41,9 +42,22 @@ export const LeftWrapper = styled.div`
 `;
 
 export const P = styled.p`
-  color: white;
+  color: #403737a3;
+  transition: 2s;
+  transition-origin: left;
 `;
 export const InputDrop = styled.input`
   width: 200px;
   height: 200px;
+`;
+
+export const Text = styled.div`
+  margin: 30px;
+  padding: 60px 40px 60px 40px;
+  background-color: #ffffff;
+  border-style: solid;
+  border-width: 1px 1px 1px 1px;
+  border-color: #d8d8d8;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
 `;

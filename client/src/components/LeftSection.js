@@ -6,7 +6,13 @@ import * as faceapi from "face-api.js";
 
 import ImageFrame from "./ImageFrame";
 
-import { LeftWrapper, InputSection, P, InputDrop } from "../styledComponents";
+import {
+  LeftWrapper,
+  InputSection,
+  P,
+  InputDrop,
+  Text
+} from "../styledComponents";
 
 export const HUMANLIST = gql`
   query {
@@ -53,15 +59,9 @@ const LeftSection = () => {
 
   const handleOnDrop = async (images, data) => {
     {
-      await faceapi.nets.ssdMobilenetv1.loadFromUri(
-        "http://localhost:4000/static/face_model"
-      );
-      await faceapi.nets.faceLandmark68Net.loadFromUri(
-        "http://localhost:4000/static/face_model"
-      );
-      await faceapi.nets.faceRecognitionNet.loadFromUri(
-        "http://localhost:4000/static/face_model"
-      );
+      await faceapi.nets.ssdMobilenetv1.loadFromUri("static/face_model");
+      await faceapi.nets.faceLandmark68Net.loadFromUri("static/face_model");
+      await faceapi.nets.faceRecognitionNet.loadFromUri("static/face_model");
       const file = images[0];
       const reader = new FileReader();
       reader.onload = () => {
@@ -85,13 +85,21 @@ const LeftSection = () => {
         <>
           <ImageFrame file={fileAsDataURL} />
           {isScanned ? (
-            <>
-              <P>Identified as {state.identity.name}</P>
-              <P>Social Id: {state.identity.socialID}</P>
-              <P>Gender is {state.identity.gender}</P>
-            </>
+            <Text>
+              <P>
+                Identified as <b>{state.identity.name}</b>
+              </P>
+              <P>
+                Social Id: <b>{state.identity.socialID}</b>
+              </P>
+              <P>
+                Gender is <b>{state.identity.gender}</b>
+              </P>
+            </Text>
           ) : (
-            <P>Scanning in progress...</P>
+            <Text>
+              <P>Scanning in progress...</P>
+            </Text>
           )}
         </>
       ) : (

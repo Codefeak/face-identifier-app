@@ -52,13 +52,13 @@ const RightSection = () => {
 
   const handleOnDrop = async images => {
     await faceapi.nets.ssdMobilenetv1.loadFromUri(
-      "http://localhost:4000/static/face_model"
+      "static/face_model"
     );
     await faceapi.nets.faceLandmark68Net.loadFromUri(
-      "http://localhost:4000/static/face_model"
+      "static/face_model"
     );
     await faceapi.nets.faceRecognitionNet.loadFromUri(
-      "http://localhost:4000/static/face_model"
+      "static/face_model"
     );
 
     const { socialID, name } = state;

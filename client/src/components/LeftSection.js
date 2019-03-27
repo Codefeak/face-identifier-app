@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";

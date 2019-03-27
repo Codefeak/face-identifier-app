@@ -1,37 +1,18 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
-import Dropzone from 'react-dropzone';
-import axios from 'axios';
-import * as faceapi from 'face-api.js';
+import React, { useState } from "react";
+import gql from "graphql-tag";
+import { Mutation } from "react-apollo";
+import Dropzone from "react-dropzone";
+import axios from "axios";
+import * as faceapi from "face-api.js";
 
-import ImageFrame from './ImageFrame';
-
-const Wrapper = styled.div`
-  grid-area: right;
-  background: #9427275e;
-  width: 100%;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const InputSection = styled.div`
-  width: 200px;
-  height: 200px;
-  display: block !important;
-  margin: 40px auto;
-  border: 2px dashed #e8e2e26e;
-  color: white;
-  box-shadow: inset 0px 0px 20px 14px #ff020247;
-`;
-const Input = styled.input`
-  width: 200px;
-  height: 200px;
-`;
+import ImageFrame from "./ImageFrame";
+import {
+  RightWrapper,
+  Form,
+  InputSection,
+  Input,
+  Button
+} from "../styledComponents";
 
 export const ADDHUMAN = gql`
   mutation RightSection(
@@ -71,35 +52,35 @@ const RightSection = () => {
 
   const handleOnDrop = async images => {
     await faceapi.nets.ssdMobilenetv1.loadFromUri(
-      'http://localhost:4000/static/face_model'
+      "http://localhost:4000/static/face_model"
     );
     await faceapi.nets.faceLandmark68Net.loadFromUri(
-      'http://localhost:4000/static/face_model'
+      "http://localhost:4000/static/face_model"
     );
     await faceapi.nets.faceRecognitionNet.loadFromUri(
-      'http://localhost:4000/static/face_model'
+      "http://localhost:4000/static/face_model"
     );
 
     const { socialID, name } = state;
     const uploads = await images.map(image => {
       const formData = new FormData();
-      formData.append('file', image);
-      formData.append('tags', name);
-      formData.append('public_id', socialID);
-      formData.append('upload_preset', 'uow0ce7i'); // Replace the preset name with your own
-      formData.append('api_key', '{293187688448118}'); // Replace API key with your own Cloudinary API key
-      formData.append('timestamp', (Date.now() / 1000) | 0);
+      formData.append("file", image);
+      formData.append("tags", name);
+      formData.append("public_id", socialID);
+      formData.append("upload_preset", "uow0ce7i"); // Replace the preset name with your own
+      formData.append("api_key", "{293187688448118}"); // Replace API key with your own Cloudinary API key
+      formData.append("timestamp", (Date.now() / 1000) | 0);
 
       return axios
         .post(
-          'https://api.cloudinary.com/v1_1/problemchild/image/upload',
+          "https://api.cloudinary.com/v1_1/problemchild/image/upload",
           formData,
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+          { headers: { "X-Requested-With": "XMLHttpRequest" } }
         )
         .then(response => console.log(response));
     });
     await axios.all(uploads).then(() => {
-      console.log('Image Uploaded to Cloudinary');
+      console.log("Image Uploaded to Cloudinary");
     });
     const reader = new FileReader();
     reader.onload = async () => {
@@ -126,7 +107,7 @@ const RightSection = () => {
     description
   } = state;
   return (
-    <Wrapper>
+    <RightWrapper>
       <Mutation mutation={ADDHUMAN}>
         {(addHuman, { data }) => (
           <Form
@@ -146,25 +127,25 @@ const RightSection = () => {
               window.location.reload();
             }}
           >
-            <input
+            <Input
               name="name"
               type="text"
               placeholder="Full Name"
               onChange={handleOnChange}
             />
-            <input
+            <Input
               name="socialID"
               type="text"
               placeholder="Social Security Number"
               onChange={handleOnChange}
             />
-            <input
+            <Input
               name="hairColor"
               type="text"
               placeholder="Hair Color"
               onChange={handleOnChange}
             />
-            <input
+            <Input
               name="gender"
               type="text"
               placeholder="Gender"
@@ -186,11 +167,11 @@ const RightSection = () => {
                 }}
               </Dropzone>
             )}
-            <button type="Submit">Add New</button>
+            <Button type="Submit">Add New</Button>
           </Form>
         )}
       </Mutation>
-    </Wrapper>
+    </RightWrapper>
   );
 };
 

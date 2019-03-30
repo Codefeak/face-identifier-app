@@ -33,7 +33,7 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   app.use(express.static(path.join(__dirname, "/client/build/index.html")));
 });
 

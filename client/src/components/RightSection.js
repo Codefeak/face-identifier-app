@@ -6,12 +6,17 @@ import axios from "axios";
 import * as faceapi from "face-api.js";
 
 import ImageFrame from "./ImageFrame";
+import inputList from "../renderInputList";
+
 import {
   RightWrapper,
   Form,
   InputSection,
   Input,
-  Button
+  Button,
+  Inf,
+  Label,
+  Span,
 } from "../styledComponents";
 
 export const ADDHUMAN = gql`
@@ -42,26 +47,30 @@ export const ADDHUMAN = gql`
 `;
 
 const RightSection = () => {
-  const stateData = { isLoading: false };
+  const stateData = { isLoading: false, isSubmitting: false, touched: false };
   const [state, setState] = useState(stateData);
+  const {
+    socialID,
+    name,
+    hairColor,
+    gender,
+    url,
+    isLoading,
+    isSubmitting,
+    touched,
+    description
+  } = state;
 
   const handleOnChange = e => {
     e.preventDefault();
-    setState({ ...state, [e.target.name]: e.target.value });
+    setState({ ...state, [e.target.name]: e.target.value, touched: true });
   };
 
   const handleOnDrop = async images => {
-    await faceapi.nets.ssdMobilenetv1.loadFromUri(
-      "static/face_model"
-    );
-    await faceapi.nets.faceLandmark68Net.loadFromUri(
-      "static/face_model"
-    );
-    await faceapi.nets.faceRecognitionNet.loadFromUri(
-      "static/face_model"
-    );
+    await faceapi.nets.ssdMobilenetv1.loadFromUri("static/face_model");
+    await faceapi.nets.faceLandmark68Net.loadFromUri("static/face_model");
+    await faceapi.nets.faceRecognitionNet.loadFromUri("static/face_model");
 
-    const { socialID, name } = state;
     const uploads = await images.map(image => {
       const formData = new FormData();
       formData.append("file", image);
@@ -97,15 +106,6 @@ const RightSection = () => {
     reader.readAsDataURL(images[0]);
   };
 
-  const {
-    socialID,
-    name,
-    hairColor,
-    gender,
-    url,
-    isLoading,
-    description
-  } = state;
   return (
     <RightWrapper>
       <Mutation mutation={ADDHUMAN}>
@@ -124,33 +124,24 @@ const RightSection = () => {
                   url: url
                 }
               });
+              document.getElementById("form").reset();
+              setState({ ...state, isSubmitting: true });
               window.location.reload();
             }}
           >
-            <Input
-              name="name"
-              type="text"
-              placeholder="Full Name"
-              onChange={handleOnChange}
-            />
-            <Input
-              name="socialID"
-              type="text"
-              placeholder="Social Security Number"
-              onChange={handleOnChange}
-            />
-            <Input
-              name="hairColor"
-              type="text"
-              placeholder="Hair Color"
-              onChange={handleOnChange}
-            />
-            <Input
-              name="gender"
-              type="text"
-              placeholder="Gender"
-              onChange={handleOnChange}
-            />
+            <Inf>
+              {inputList.map(list => (
+                <Label key={list.socialID}>
+                  <Span>{list.label}</Span>
+                  <Input
+                    name={list.name}
+                    type={list.type}
+                    placeholder={list.placeholder}
+                    onChange={handleOnChange}
+                  />
+                </Label>
+              ))}
+            </Inf>
             {isLoading ? (
               url && <ImageFrame file={url} />
             ) : (
@@ -167,7 +158,12 @@ const RightSection = () => {
                 }}
               </Dropzone>
             )}
-            <Button type="Submit">Add New</Button>
+            <Button
+              type="Submit"
+              disabled={!isLoading || !isSubmitting || !touched}
+            >
+              Add New
+            </Button>
           </Form>
         )}
       </Mutation>

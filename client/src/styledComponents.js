@@ -1,16 +1,38 @@
 import styled from "styled-components";
 
 export const RightWrapper = styled.div`
-  grid-area: right;
   background: #9427275e;
   width: 100%;
+  display: grid;
 `;
-
 export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template:
+    "information"
+    "pic"
+    "btn";
+  grid-template-rows: 4fr 4fr 1fr;
 `;
 
+export const Inf = styled.section`
+  width: 70%;
+  margin: 20px auto;
+  display-area: information;
+  display: grid;
+  grid-template-rows: 40px repeat(auto-fill, 40px) 30px;
+  background: #00000040;
+  border-radius: 0px 0px 5px 5px;
+  padding: 15px;
+`;
+export const Label = styled.label`
+  display: grid;
+  grid-template: "text input";
+`;
+export const Span = styled.span`
+  grid-area: text;
+  color: white;
+  align-self: center;
+`;
 export const InputSection = styled.div`
   width: 200px;
   height: 200px;
@@ -23,7 +45,10 @@ export const InputSection = styled.div`
 `;
 export const Input = styled.input`
   height: 30px;
-  width: 300px;
+  min-width: 300px;
+  background: #dddddd;
+  border: none;
+  color: black;
 `;
 
 export const Button = styled.button`
@@ -31,8 +56,13 @@ export const Button = styled.button`
   border: 2px solid white;
   background: transparent;
   color: white;
+  font-weight: 600;
   border-radius: 5px;
   min-height: 35px;
+  &:hover {
+    background: white;
+    color: black;
+  }
 `;
 
 export const LeftWrapper = styled.div`

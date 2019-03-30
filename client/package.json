@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:4000/",
   "dependencies": {
     "apollo-boost": "0.1.16",
     "axios": "^0.18.0",
@@ -11,6 +11,8 @@
     "react-apollo": "2.1.11",
     "react-dom": "^16.8.5",
     "react-dropzone": "^10.0.6",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "reactstrap": "6.4.0",
     "styled-components": "^4.1.3"

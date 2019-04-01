@@ -158,9 +158,10 @@ const RightSection = () => {
                 }}
               </Dropzone>
             )}
+            {console.log(isLoading, touched)}
             <Button
               type="Submit"
-              disabled={!isLoading || !isSubmitting || !touched}
+              disabled={!isLoading || !touched}
             >
               Add New
             </Button>

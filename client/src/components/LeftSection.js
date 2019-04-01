@@ -11,7 +11,8 @@ import {
   InputSection,
   P,
   InputDrop,
-  Text
+  Text,
+  Button
 } from "../styledComponents";
 
 export const HUMANLIST = gql`
@@ -45,7 +46,7 @@ const LeftSection = () => {
       const distance = faceapi.round(
         faceapi.euclideanDistance(description, uploadDescription[0].descriptor)
       );
-      distance <= 0.6 &&
+      distance < 0.57 &&
         setState({
           ...state,
           isScanned: true,
@@ -85,17 +86,22 @@ const LeftSection = () => {
         <>
           <ImageFrame file={fileAsDataURL} />
           {isScanned ? (
-            <Text>
-              <P>
-                Identified as <b>{state.identity.name}</b>
-              </P>
-              <P>
-                Social Id: <b>{state.identity.socialID}</b>
-              </P>
-              <P>
-                Gender is <b>{state.identity.gender}</b>
-              </P>
-            </Text>
+            <>
+              <Text>
+                <P>
+                  Identified as <b>{state.identity.name}</b>
+                </P>
+                <P>
+                  Social Id: <b>{state.identity.socialID}</b>
+                </P>
+                <P>
+                  Gender is <b>{state.identity.gender}</b>
+                </P>
+              </Text>
+              <Button onClick={() => window.location.reload()}>
+                Identify New
+              </Button>
+            </>
           ) : (
             <Text>
               <P>Scanning in progress...</P>

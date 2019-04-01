@@ -6,7 +6,7 @@
   "author": "Codefeak",
   "license": "MIT",
   "engines": {
-    "node": "10.15.0"
+    "node": "11.12.0"
   },
   "dependencies": {
     "@babel/cli": "^7.2.3",
@@ -28,7 +28,8 @@
   },
   "scripts": {
     "start": "yarn run server",
-    "server": "nodemon --exec babel-node server.js"
+    "server": "nodemon --exec babel-node server.js",
+    "build": "yarn && cd client && yarn && yarn run build"
   },
   "devDependencies": {
     "@babel/node": "^7.2.2"
